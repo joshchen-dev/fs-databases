@@ -22,14 +22,21 @@ router.post('/', async (req, res) => {
   res.json(blog)
 })
 
-router.delete('/:id',blogFinder, async (req, res) => {
-  const blog = await Blog.findByPk(req.params.id)
+router.delete('/:id', blogFinder, async (req, res) => {
+  const blog = req.blog
   if (blog) {
     blog.destroy()
     res.status(204).send('Blog deleted.')
   } else {
     res.status(404).end()
   }
+})
+
+router.put('/:id', blogFinder, async (req, res) => {
+  const blog = req.blog
+  blog.likes = req.body.likes
+  blog.save()
+  res.send('Success.')
 })
 
 module.exports = router
