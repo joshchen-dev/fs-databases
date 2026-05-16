@@ -27,13 +27,14 @@ router.post('/', tokenExtractor, async (req, res, next) => {
   }
 })
 
-router.delete('/:id', blogFinder, async (req, res) => {
-  const blog = req.blog
-  if (blog) {
-    blog.destroy()
+router.delete('/:id', tokenExtractor, blogFinder, async (req, res) => {
+  console.log(req.decodedToken.id)
+  console.log(req.blog.dataValues.userId)
+  if (req.blog && req.decodedToken.id === req.blog.dataValues.userId) {
+    req.blog.destroy()
     res.status(204).send('Blog deleted.')
   } else {
-    res.status(404).end()
+    res.status(404).end({ error: 'user doesn\'t own this blog' })
   }
 })
 
