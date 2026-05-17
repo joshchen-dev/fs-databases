@@ -60,10 +60,11 @@ router.delete('/:id', tokenExtractor, blogFinder, async (req, res) => {
 
 router.put('/:id', blogFinder, async (req, res, next) => {
   try {
-    const blog = req.blog
+    const blog = await Blog.findByPk(req.params.id)
+    console.error(blog)
     blog.likes = req.body.likes
     await blog.save()
-    res.send('Success.')
+    res.send(blog)
   } catch (err) {
     next(err)
   }

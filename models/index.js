@@ -1,11 +1,18 @@
+const { sequelize } = require('../util/db')
 const Blog = require('./blog')
 const User = require('./user')
 
 User.hasMany(Blog)
 Blog.belongsTo(User)
 
-Blog.sync()
-User.sync()
+// const syncDatabase = async () => {
+//   await Blog.sync({ alter: true })
+//   await User.sync({ alter: true })
+// }
+
+// syncDatabase()
+// 
+sequelize.sync({ alter: true })
 
 module.exports = {
   Blog,
