@@ -12,16 +12,23 @@ const blogFinder = async (req, res, next) => {
 
 // eslint-disable-next-line no-unused-vars
 const errorHandler = (err, req, res, next) => {
-  console.error(err.errors[0].validatorKey)
+  const error = []
 
-  switch (err.errors[0].validatorKey) {
-    case "isEmail":
-      return res.status(400).send({ error: 'username must be a valid email address' })
-    default:
-      return res.status(400).send(err)
-
-  }
-
+  err.errors.forEach(e => {
+    switch (e.validatorKey) {
+      case "isEmail":
+        error.push({ error: 'username must be a valid email address' })
+        break
+      case "min":
+      case "max":
+        error.push({ error: `year must be in range [1991, ${new Date().getFullYear()}]`})
+        break
+      default:
+        error.push(e)
+    }
+  })
+  
+  res.send(error)
 }
 
 const tokenExtractor = (req, res, next) => {

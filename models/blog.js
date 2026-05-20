@@ -14,11 +14,11 @@ Blog.init({
   },
   url: {
     type: DataTypes.TEXT,
-    require: true
+    allowNull: false
   },
   title: {
     type: DataTypes.TEXT,
-    require: true
+    allowNull: false
   },
   likes: {
     type: DataTypes.INTEGER,
@@ -28,11 +28,18 @@ Blog.init({
       isInt: true,
       min: 0
     }
+  },
+  year: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    validate: {
+      min: 1991,
+      max: new Date().getFullYear()
+    }
   }
 }, {
   sequelize,
   underscored: true,
-  timestamps: false,
   modelName: 'blog'
 })
 

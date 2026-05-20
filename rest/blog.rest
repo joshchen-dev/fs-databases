@@ -8,12 +8,13 @@ GET http://localhost:3001/api/blogs?search=react
 
 POST http://localhost:3001/api/blogs
 Content-Type: application/json
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFAYi5mb28iLCJpZCI6MiwiaWF0IjoxNzc4OTMxMDE1fQ.pe-1JdFPG6bVFIRX2kFbxBWLxHavRxuKETKxSIeymu0
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFAYi5jb20iLCJpZCI6MywiaWF0IjoxNzc5MTY2MjI1fQ.5C-VNo8EGug53EID3XDZxlaaz9LAaMoL5z7oI7pMBp4
 
 {
   "author": "React hey",
   "url": "Test",
-  "title": "Test Title"
+  "title": "Test Title",
+  "year": "200"
 }
 
 ###

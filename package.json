@@ -17,6 +17,7 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon --verbose index.js",
+    "migration:down": "node util/rollback.js",
     "lint": "eslint .",
     "test": "node --test --test-concurrency=1 tests/api_ch3.test.js"
   },
@@ -27,6 +28,7 @@
     "jsonwebtoken": "^9.0.3",
     "pg": "^8.20.0",
     "sequelize": "^6.37.8",
+    "umzug": "^3.8.3",
     "wait-on": "^9.0.10"
   },
   "devDependencies": {
