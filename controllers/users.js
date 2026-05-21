@@ -14,6 +14,34 @@ router.get('/', async (req, res) => {
   res.json(users)
 })
 
+router.get('/:id', async (req, res) => {
+  const throughFilter = {}
+
+  if (req.query.read) {
+    throughFilter.read = req.query.read
+  }
+
+  const user = await User.findOne({
+    where: { id: req.params.id },
+    include: [{
+      model: Blog,
+      attributes: {
+        exclude: ['userId']
+      }
+    },
+    {
+      model: Blog,
+      as: 'marked_blogs',
+      through: {
+        attributes: ['read', 'id'],
+        where: throughFilter
+      }
+    }
+    ]
+  })
+  res.json(user)
+})
+
 router.post('/', async (req, res, next) => {
   try {
     const user = await User.create(req.body)

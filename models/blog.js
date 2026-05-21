@@ -7,7 +7,10 @@ Blog.init({
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
-    autoIncrement: true
+    autoIncrement: true,
+    validate: {
+      isInt: true
+    }
   },
   author: {
     type: DataTypes.TEXT,

@@ -14,21 +14,23 @@ const blogFinder = async (req, res, next) => {
 const errorHandler = (err, req, res, next) => {
   const error = []
 
-  err.errors.forEach(e => {
+  err.errors?.forEach(e => {
     switch (e.validatorKey) {
       case "isEmail":
         error.push({ error: 'username must be a valid email address' })
         break
       case "min":
       case "max":
-        error.push({ error: `year must be in range [1991, ${new Date().getFullYear()}]`})
+        error.push({ error: `year must be in range [1991, ${new Date().getFullYear()}]` })
         break
       default:
         error.push(e)
     }
   })
-  
-  res.send(error)
+
+  return (error.length > 0)
+    ? res.status(400).send(error)
+    : res.status(400).send(err)
 }
 
 const tokenExtractor = (req, res, next) => {
