@@ -21,13 +21,28 @@ router.post('/', async (req, res) => {
     return res.status(404).send({ error: 'user doesn\'t exist.' })
   }
 
+  const exist = await ReadingList.findOne({
+    where: {
+      blogId, userId
+    }
+  })
+
+  if (exist) {
+    return res.status(400).send({ error: 'blog already exist in user\'s reading list. ' })
+  }
+
   const list = await ReadingList.create({
     userId: user.id,
     blogId: blog.id,
     read: false
   })
 
-  return res.send(list)
+  return res.send({
+    id: list.id,
+    user_id: list.userId,
+    blog_id: list.blogId,
+    read: false
+  })
 })
 
 router.put('/:id', tokenExtractor, async (req, res) => {
@@ -46,8 +61,12 @@ router.put('/:id', tokenExtractor, async (req, res) => {
     where: { id: id }
   })
 
+  if (!list) {
+    return res.status(404).send({ error: 'blog not found in reading list.' })
+  }
+
   if (list.userId !== req.decodedToken.id) {
-    return res.status(400).send({ error: 'operation not permitted.' })
+    return res.status(401).send({ error: 'operation not permitted.' })
   }
 
   list.read = read

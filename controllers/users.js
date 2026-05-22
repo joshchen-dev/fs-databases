@@ -31,7 +31,7 @@ router.get('/:id', async (req, res) => {
     },
     {
       model: Blog,
-      as: 'marked_blogs',
+      as: 'readings',
       through: {
         attributes: ['read', 'id'],
         where: throughFilter

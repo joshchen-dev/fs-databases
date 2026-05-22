@@ -9,8 +9,9 @@ const usersRouter = require('./controllers/users')
 const loginRouter = require('./controllers/login')
 const authorRouter = require('./controllers/authors')
 const readingListRouter = require('./controllers/readingLists')
+const logoutRouter = require('./controllers/logout')
 const { errorHandler } = require('./middleware')
-const { Blog, User } = require('./models')
+const { Blog, User, Session, ReadingList } = require('./models')
 
 app.use(express.json())
 
@@ -19,10 +20,13 @@ app.use('/api/users', usersRouter)
 app.use('/api/login', loginRouter)
 app.use('/api/authors', authorRouter)
 app.use('/api/readinglists', readingListRouter)
+app.use('/api/logout', logoutRouter)
 
 app.post('/api/reset', async (req, res) => {
   await Blog.truncate({ cascade: true })
   await User.truncate({ cascade: true })
+  await Session.truncate({ cascade: true })
+  await ReadingList.truncate({ cascade: true })
   res.end()
 })
 

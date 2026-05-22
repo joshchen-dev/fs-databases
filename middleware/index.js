@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken")
 const { SECRET } = require('../util/config')
-const { Blog } = require("../models")
+const { Blog, Session } = require("../models")
 
 const blogFinder = async (req, res, next) => {
   req.blog = await Blog.findByPk(req.params.id)
@@ -33,7 +33,7 @@ const errorHandler = (err, req, res, next) => {
     : res.status(400).send(err)
 }
 
-const tokenExtractor = (req, res, next) => {
+const tokenExtractor = async (req, res, next) => {
   const authorization = req.get('authorization')
 
   if (!(authorization && authorization.toLowerCase().startsWith('bearer '))) {
@@ -42,8 +42,18 @@ const tokenExtractor = (req, res, next) => {
 
   try {
     req.decodedToken = jwt.verify(authorization.substring(7), SECRET)
+    const session = await Session.findOne({
+      where: {
+        session: authorization.substring(7)
+      }
+    })
+
+    if (!session) {
+      return res.status(401).send({ error: 'User not authorized.' })
+    }
+
   } catch (err) {
-    next(err)
+    return res.status(401).send({ error: 'User not authorized.' })
   }
 
   next()

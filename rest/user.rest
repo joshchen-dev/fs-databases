@@ -50,3 +50,9 @@ Content-Type: application/json
   "username": "a@b.com",
   "password": "bbb"
 }
+
+###
+
+DELETE http://localhost:3001/api/logout
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFAYi5jb20iLCJpZCI6MywiaWF0IjoxNzc5NDI4NzM5fQ.t8IOb2v02LbzgeH7h7r4X40fp4SwFrCgPKqo6gDgwVg
